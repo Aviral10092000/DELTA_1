@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,height=device-height,initial-
+
+scale=1">
+
+<title>untitled document</title>
+
+<link rel="stylesheet" href="screen.css" media="screen">
+
+<style media="screen">
+body {
+    font: 1em/150% verdana, arial, helvetica, sans-serif;
+    background-color: #0f0f0f;
+ }
+p {
+   color: black;
+   font-family: courier;
+   font-size: 160%;
+   font-weight: bold;
+}
+h1 {
+    font-size: 1em;
+    color: #839C29;
+    text-align: center;
+    border: 1px solid powderblue;
+}
+h6 {
+    font-size: 1em;
+    text-align: left;
+}
+h5 {
+    font-size: 3em;
+    color: #839C29;
+    text-align: center;
+}
+
+h10 {
+    font-size: 3em;
+    color: #839C29;
+    text-align: center;
+ }
+
+button {
+    height: 50px;
+    width: 20%;
+    text-align: center;
+}
+table {
+    border-collapse: collapse;
+    width: 40%;
+    height: 30px;
+}
+table {
+  border: 3px solid green;
+
+
+}
+td {
+    border: 3px solid green;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    width: 100px;
+    border: 3px solid green;
+    color: brown;
+}
+tr {
+    height: 20px;
+    border: 3px solid green;
+}
+input {
+    width: 20%;
+
+}
+div.form_1 {
+    display: block;
+    width: 800px;
+    height: 700px;
+    margin: auto;
+    border: 3px solid green;
+    background-color: grey 
+}
+div.form_2 {
+    display: block;
+    width: 800px;
+    height:900px;
+    border: 3px solid green;
+    background-color: grey 
+}
+
+
+fieldset {
+    align-content: left;
+    width: 600px;
+    border: 1px solid green;
+}
+input {
+    width : 40%;
+    height: 40px;
+}
+</style>
+</head>
+<body background="Food.jpg"> 
+<p><h10>Food Calculator</h10></p>
+<p>Humans need a wide range of nutrients to lead a healthy and active life. For 
+
+providing these nutrients, good nutrition or proper intake of food in relation to the 
+
+body?s dietary needs is required. An adequate, well balanced diet combined with 
+
+regular physical activity is a cornerstone of good health. Poor nutrition can lead to -
+
+reduced immunity, increased susceptibility to disease, impaired physical and mental 
+
+development, and reduced productivity.</p>
+<p></p>
+<center>
+</center>
+<p>
+
+    <div class = "form_1">
+       <h5>Calorie Table</h5>
+        <form>
+        <center>
+        <fieldset>
+        <span>   
+        <p>Userame: &nbsp &nbsp &nbsp &nbsp <input id="Userame" type="text" name="Enter Your Name"></p>
+        </span>
+        </fieldset>  
+        <br>  
+        <button onclick="search_username()">Go to your food calorie table</button>
+        <br>
+        <br>
+        </center>
+        </form>
+    </div>
+
+</p>
+    <center>
+        <table id = "table_1">
+        <th> Username: </th>
+        <th> Food items </th>
+        <th> Carbohydrates</th>
+        <th> Fats </th>
+        <th> Calorie Limit </th>
+        </table>
+        <br>
+    <button id="add_item" onclick="add_item()">add item</button>
+
+    </center> 
+<br>
+    <br>
+    <br><br><br><br><br><br><br>
+<center>
+    <div class = "form_2">
+        <h5> Enter Your Details: </h5>
+        <form>
+        <br>
+        <fieldset>
+        <span>
+        <p>Name: &nbsp &nbsp &nbsp &nbsp <input id="Name" type="text" name="Enter Your Name"></p>
+        </span>
+        </fieldset>
+        <br>
+        <fieldset>
+        <span>
+        <p>Age: &nbsp &nbsp &nbsp &nbsp <input id="Age" type="text" name="Enter Your Age"></p>
+        </span>
+        </fieldset>
+        <br>
+        <fieldset>
+        <span>
+        <p>Weight: &nbsp &nbsp &nbsp &nbsp <input id="Weight" type="text" name="Enter Your Weight"></p>
+        </span>
+        </fieldset>
+        <br>
+        <fieldset>
+        <span>
+        <p>Height: &nbsp &nbsp &nbsp &nbsp <input id="Height" type="text" name="Enter Your Height"></p>
+        </span>
+        </fieldset>
+        <br> 
+        <button onclick="newMember()">Register:</button>
+        </form>
+    </div>  
+    <br>
+    
+</center>
+
+
+<script>
+    var person_details = {};
+    var food_items =[{}];
+    var flag = 0;
+    var Username;
+    function newMember() {
+        alert("Registered");
+        var name_create = document.getElementById("Name");
+        var age_create = document.getElementById("Age");
+        var weight_create = document.getElementById("Weight");
+        var height_create = document.getElementById("Height");
+        var limit_max =  10*weight_create + 6.25*height_create -5*age_create + 5;
+        //person_details.push(name_create: food_items);
+        localStorage["Username_details"] = JSON .stringify(person_details);
+    }
+    function search_username() {
+        var Username_created = document.getElementById("Username");
+        Username = Username_created;
+        var i = 0;
+        for(i=0;i<person_details.length;i++)
+        {
+            if(Username_details[i].name_create === Username_created)
+            {
+                flag = 1;
+            }
+        }
+        alert("Registered");
+        
+
+    }
+    function add_item() {
+        {
+            alert("Plz add username or register");
+        }
+        
+        {
+            table_1.insertRow(-1);
+            var newCell0 = newRow.insertCell(0);
+            table_1.appendChild(newCell0);
+            var newCell1 = newRow.insertCell(1);
+            table_1.appendChild(newCell0);
+            var newCell2 = newRow.insertCell(2);
+            table_1.appendChild(newCell0);
+            var newCell3 = newRow.insertCell(3);
+            table_1.appendChild(newCell0);
+            var newCell4 = newRow.insertCell(4);
+            table_1.appendChild(newCell0);           
+
+        }
+
+    }
+</script>
+</body>
+</html>
