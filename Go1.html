@@ -5,109 +5,14 @@
 <meta name="viewport" content="width=device-width,height=device-height,initial-
 
 scale=1">
-
+<script src="js_files.js"></script>
 <title>untitled document</title>
 
 <link rel="stylesheet" href="screen.css" media="screen">
-
-<style media="screen">
-body {
-    font: 1em/150% verdana, arial, helvetica, sans-serif;
-    background-color: #0f0f0f;
- }
-p {
-   color: black;
-   font-family: courier;
-   font-size: 160%;
-   font-weight: bold;
-}
-h1 {
-    font-size: 1em;
-    color: #839C29;
-    text-align: center;
-    border: 1px solid powderblue;
-}
-h6 {
-    font-size: 3em;
-    text-align: center;
-}
-h5 {
-    font-size: 3em;
-    color: #839C29;
-    text-align: center;
-}
-
-h10 {
-    font-size: 3em;
-    color: #839C29;
-    text-align: center;
- }
-
-button {
-    height: 50px;
-    width: 20%;
-    text-align: center;
-}
-table {
-    border-collapse: collapse;
-    width: 40%;
-    height: 30px;
-}
-table {
-  border: 3px solid green;
-
-
-}
-td {
-    border: 3px solid green;
-    border-bottom: 1px solid #ddd;
-}
-th {
-    width: 100px;
-    border: 3px solid green;
-    color: brown;
-}
-tr {
-    height: 20px;
-    border: 3px solid green;
-}
-input {
-    width: 20%;
-
-}
-div.form_1 {
-    display: block;
-    width: 800px;
-    height: 700px;
-    margin: auto;
-    border: 3px solid green;
-    background-color: grey 
-}
-div.form_2 {
-    display: block;
-    width: 800px;
-    height:900px;
-    border: 3px solid green;
-    background-color: grey 
-}
-textarea.A {
-	height: 200px;
-}
-
-fieldset {
-    align-content: left;
-    width: 600px;
-    border: 1px solid green;
-}
-input {
-    width : 20%;
-    height: 40px;
-}
-</style>
 </head>
 <body background="Food.jpg" onload="Textarea_fill()"> 
 <p><h10>Food Calculator</h10></p>
-<p>Humans need a wide range of nutrients to lead a healthy and active life. For 
+<p class="IMP">Humans need a wide range of nutrients to lead a healthy and active life. For 
 
 providing these nutrients, good nutrition or proper intake of food in relation to the 
 
@@ -125,9 +30,9 @@ development, and reduced productivity.</p>
 
 	<br>
 	<p>
-	Age:<textarea id="Age" value="Enter"></textarea>
-	Height:<textarea id="Height" value="Enter"></textarea>
-	Weight:<textarea id="Weight" value="Enter"></textarea>
+	Age:<textarea id="Age" class="B" value="Enter"></textarea>
+	Height:<textarea id="Height" class = "B" value="Enter"></textarea>
+	Weight:<textarea id="Weight" class = "B" value="Enter"></textarea>
 	<br>
 	<br>
 	<button type="button" onclick="calculate()">Calculate</button>
@@ -144,99 +49,15 @@ development, and reduced productivity.</p>
 	<tr>
  	<th>Food Item</th>  <th>Carbohydrates</th> <th>Fats</th><th>Calorie</th><th>Water Consumed</th></tr>
   	<tr>
-    <td><textarea id="Food_item" class="A" value="Enter" onmouseleave="myFunction_1()">Add stuff here</textarea></td>
-    <td><textarea id="Carbohydrates" class="A" value="Enter" onmouseleave="myFunction_2()">Add stuff here</textarea></td> 
-    <td><textarea id="Fats" class="A" value="Enter" onmouseleave="myFunction_3()">Add stuff here</textarea></td>
-    <td><textarea id="Calorie" class="A" value="Enter" onmouseleave="myFunction_4()">Add stuff here</textarea></td>
-    <td><textarea id="Water" class="A" value="Enter" onmouseleave="myFunction_5()">Add Stuff here</textarea>
-  	</tr>
+    <td><textarea id="Food_item" class="A" value="Enter">Add stuff here</textarea></td>
+    <td><textarea id="Carbohydrates" class="A" value="Enter">Add stuff here</textarea></td> 
+    <td><textarea id="Fats" class="A" value="Enter">Add stuff here</textarea></td>
+    <td><textarea id="Calorie" class="A" value="Enter">Add stuff here</textarea></td>
+    <td><textarea id="Water" class="A" value="Enter">Add Stuff here</textarea>
+	</tr>
 	</table>
 	</div>
+	<button id="Save_change" onclick="myFunction_1()">Save Changes!</button>
 </center>
-<script type="text/javascript">
-	var sum_calorie = 0;
-	var display
-	function calculate() {
-	var Age = document.getElementById("Age");
-	var Height = document.getElementById("Height");
-	var Weight = document.getElementById("Weight");
-	display = 10*Weight.value + 6.25*Height.value -5*Age.value + 5;
-	let x_y = display;
-	localStorage.setItem("CALCULATE",display);
-	localStorage.setItem("AGE", Age.value);
-	localStorage.setItem("Height_1", Height.value);
-	localStorage.setItem("Weight_1", Weight.value);
-	document.getElementById("Display").value = x_y;
-	}
-	function myFunction_1() {
-	let value_1 = document.getElementById("Food_item");
-	console.log(value_1);
-	localStorage.setItem("ITEMS",(value_1.value));
-	}
-	function myFunction_2() {
-	let value_2 = document.getElementById("Carbohydrates");
-	localStorage.setItem("CARBOHYDRATES",(value_2.value));	
-	}
-	function myFunction_3() {
-	let value_3 = document.getElementById("Fats");
-	localStorage.setItem("FATS",(value_3.value));
-	}
-	function myFunction_4() {
-	let value_4 = document.getElementById("Calorie");
-	localStorage.setItem("CALORIE",(value_4.value));
-	var str = value_4.value.split("\n");
-	for(var i =0;i<str.length;i++)
-	{
-		sum_calorie = sum_calorie + parseInt(str[i]);
-	}
-	if(sum_calorie>display)
-		alert("Calorie intake exceded");
-	if(sum_calorie==display)
-		alert("Calorie Requirement is done for this day");
-	}
-	function myFunction_5() {
-		let value_5 = document.getElementById("Water");
-		localStorage.setItem("Water",(value_5.value));
-		var str = value_5.value.split("\n");
-		if(parseInt(str[0])>=1000)
-		{
-			alert("Water Requirement is done");
-		}
-		else if(parseInt(str[0])<1000)
-		{
-			alert("Water Requirement is not fullfilled");
-		}
-	}
-	function Textarea_fill() {
-	let value_1 = document.getElementById("Food_item");
-	var a = localStorage.getItem("ITEMS");
-	if(a!==null)
-	value_1.value = a.split(",");
-	let value_2 = document.getElementById("Carbohydrates");
-	a = localStorage.getItem("CARBOHYDRATES"); 
-	if(a!==null)
-	value_2.value = a.split(",");
-	let value_3 = document.getElementById("Fats");
-	a = localStorage.getItem("FATS");
-	if(a!==null)
-	value_3.value = a.split(",");
-	let value_4 = document.getElementById("Calorie");
-	a = localStorage.getItem("CALORIE");
-	if(a!==null)
-	value_4.value = a.split(",");
-	let x = localStorage.getItem("AGE");
-	value_1 = document.getElementById("Age");
-	value_1.value = x;
-	let value_5 = document.getElementById("Water");
-	a = localStorage.getItem("Water");
-	value_5.value = a.split(",");
-	let y = localStorage.getItem("Height_1");
-	document.getElementById("Height").value = y;
-	let z = localStorage.getItem("Weight_1");
-	document.getElementById("Weight").value = z;
-	let a_b = localStorage.getItem("CALCULATE");
-	document.getElementById("Display").value = a_b;
-	}
-</script>
 </body>
 </html>
