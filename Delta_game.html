@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Game: Ball Blast! </title>
+<style>
+div {
+	display: block;
+	width: 900px;
+	height: 700px;
+	margin: auto;
+	border: 3px solid green;
+	background-color: grey;
+	
+}
+</style>
+</head>
+<body bgcolor="grey">
+
+<canvas id = "Game_area" width = "600" height = "600" onmouseleave="Enter_game_area()" style = "border:3px solid #d3d3d3;background-color: white;"></canvas>
+
+<script type="text/javascript">
+	var x = 0;
+	var odd_number = [];
+	for(var i = 1;i<600;i = i + 2)
+	odd_number.push(i);
+	var flag_1 = 1;
+	var const_y = 25;
+	var bullet_y = [];
+	var rocks_arr = [];
+	var canvas = document.getElementById("Game_area");
+	var ctx = canvas.getContext("2d");
+	var y = 0;
+	var a_x = 1;
+	var b_x = 0;
+	setInterval(function()
+	{
+		var flag = 1;
+		for(var i = bullet_y.length-1;i>=0;i = i - 2)
+			{
+				clear_bullet(bullet_y[i-1],bullet_y[i]);
+				draw_object();
+				bullet_y[i] = bullet_y[i] - 20;
+				draw_bullet(bullet_y[i-1],bullet_y[i]);
+
+				if(bullet_y[i]<=-10)
+				{
+					bullet_y[i-1] = x+35;
+					bullet_y[i] = 575;
+					flag = 0;
+				}
+			}
+		if(flag)
+		{
+			bullet_y.push(x+35);
+			bullet_y.push(575);
+		}
+		flag = 1;
+		
+	},5);
+	setInterval(function()
+	{
+		
+		var height_rock_ground = parseInt(Math.random()*1000);
+		height_rock_ground = height_rock_ground%300;
+		height_rock_ground = height_rock_ground + 50;
+		console.log(height_rock_ground);
+		var strength_rock = parseInt(Math.random()*1000);
+		strength_rock = strength_rock%1000;
+		generate_rocks(height_rock_ground,strength_rock);
+		
+
+	},10000);
+	setInterval(function()
+	{
+		update_rock_status();
+	},100);
+	function clear_bullet(x,y)
+	{
+		ctx.clearRect(x,y,2,5);
+		ctx.clearRect(x+8,y,2,5)
+	}
+	function Enter_game_area() 
+	{
+		draw_object();
+	}
+	function draw_object() 
+	{
+		ctx.fillStyle = "#FF0000";
+		ctx.fillRect(0 + x,595,80,5);
+		ctx.fillRect(30 + x,575,20,20);
+		control_object();
+	}
+	function control_object()
+	{
+		document.addEventListener('keydown', keyDownHandler, false); 	
+	}
+	function update_rock_status()
+	{
+		
+		rock_move();
+		check_bullet_rock_overlap();
+		check_object_overlap();
+		
+	}
+	function check_object_overlap()
+	{
+		var i1 = 0;
+		for(i1 = 0;i1<rocks_arr.length;i1 = i1+8)
+		{
+			if(rocks_arr[i1]>575)
+			{
+				if(rocks_arr[i1+1]>x&&rocks_arr[i1+1]<x+80)
+				{
+					alert("Game Over");
+				}
+			}
+		}
+	}
+	function check_bullet_rock_overlap()
+	{
+		var i1 = 0;
+		
+		for(i1 = 0;i1<rocks_arr.length;i1 = i1+8)
+		{
+			for(var j = 0;j<bullet_y.length;j = j + 2)
+			{
+
+				if(Math.sqrt(((bullet_y[j]-rocks_arr[i1+1])*(bullet_y[j]-rocks_arr[i1+1])) + ((bullet_y[j+1]-rocks_arr[i1])*(bullet_y[j+1]-rocks_arr[i1])))<100)
+				{
+
+					
+					bullet_y[j] = -20;
+					rocks_arr[i1+2]--;
+					write_strength();
+					if(rocks_arr[i1+2]<=0)
+					{
+						rocks_arr.splice(i1,8);
+					}
+					for(var k = 0;k<bullet_y.length;k = k + 2)
+					{
+						bullet_y[k] = -20;
+					}	
+					console.log(bullet_y);
+					
+
+				}
+				
+			}
+			
+
+		}
+	}
+	function rock_move()
+	{
+		
+		var j = 0;
+		for(j = 0;j<rocks_arr.length;j=j+8)
+		{
+			if(rocks_arr[j+6])
+			{
+
+				rocks_arr[j+1] = rocks_arr[j+1] + 10;
+				if(rocks_arr[j+1]>600)
+				{
+					rocks_arr[j+7] = 1;
+					rocks_arr[j+6] = 0;
+				}
+			}
+			if(rocks_arr[j+7])
+			{
+				rocks_arr[j+1] = rocks_arr[j+1] - 10;
+				if(rocks_arr[j+1]<0)
+				{
+					rocks_arr[j+7] = 0;
+					rocks_arr[j+6] = 1;
+				}
+			}
+			if(rocks_arr[j+1]>0&&rocks_arr[j]>=rocks_arr[j+3]&&rocks_arr[j+5]&&rocks_arr[j]<=600)
+			{
+				rocks_arr[j] = rocks_arr[j] + odd_number[rocks_arr[j+4]];
+				rocks_arr[j+4]++;
+			}
+			else
+			{
+				rocks_arr[j+5] = 0;
+			}
+			if(rocks_arr[j]<=rocks_arr[j+3]||rocks_arr[j+5]==0)
+			{
+				rocks_arr[j+4]--;
+				rocks_arr[j+5] = 0;
+				rocks_arr[j] = rocks_arr[j] - odd_number[rocks_arr[j+4]];
+				if(rocks_arr[j+4]==0)
+				{
+					rocks_arr[j+5] = 1;
+				}
+			}
+		}
+	}
+	setInterval(function()
+	{
+
+		
+		for(var j = 0;j<rocks_arr.length;j = j+8)
+		{
+			ctx.fillStyle = "#FFFFFF";
+			ctx.beginPath();
+			ctx.arc(rocks_arr[j+1]-2,rocks_arr[j]-odd_number[rocks_arr[4]],50,0,2*Math.PI);
+			ctx.arc(rocks_arr[j+1]-4,rocks_arr[j]-odd_number[rocks_arr[4]]-odd_number[rocks_arr[4]-1],50,0,2*Math.PI);
+			ctx.arc(rocks_arr[j+1]-6,rocks_arr[j]-odd_number[rocks_arr[4]]-odd_number[rocks_arr[4]-1]-odd_number[rocks_arr[4]-2],50,0,2*Math.PI);
+			ctx.arc(rocks_arr[j+1]-8,rocks_arr[j]-odd_number[rocks_arr[4]]-odd_number[rocks_arr[4]-1]-odd_number[rocks_arr[4]-2]-odd_number[rocks_arr[4]-3],50,0,2*Math.PI);
+			ctx.arc(rocks_arr[j+1]-10,rocks_arr[j]-odd_number[rocks_arr[4]]-odd_number[rocks_arr[4]-1]-odd_number[rocks_arr[4]-2]-odd_number[rocks_arr[4]-3]-odd_number[rocks_arr[4]-4],50,0,2*Math.PI);
+			ctx.closePath();-
+			ctx.fill();
+			ctx.fillStyle = "#ffffff";
+			ctx.beginPath();
+
+			ctx.stroke();
+
+		}
+		
+		
+	},1000);
+	setInterval(function()
+	{
+		
+		for(var j = 0;j<rocks_arr.length;j = j+8)
+		{
+			ctx.fillStyle = "#FF9900";
+			ctx.beginPath();
+			ctx.arc(rocks_arr[j+1],rocks_arr[j],50,0,2*Math.PI);
+			ctx.closePath();
+			ctx.fill();
+			ctx.stroke();
+
+		}
+		
+		
+	},1);
+	setInterval(function()
+	{
+		clear_rect();
+		
+	},100);
+	setInterval(function()
+	{
+		write_strength();
+	},10);
+	function clear_rect() 
+	{
+		ctx.clearRect(0,0,600,600);
+		Enter_game_area();
+	}
+	function keyDownHandler(event)
+	{
+		if(event.keyCode == 65)
+			{
+				if(x>0)
+				{
+					
+					x = x - 5;
+				}
+				
+			}
+		else if(event.keyCode==68)
+			{
+				if(x<520)
+				{
+					
+					x = x + 5;
+				}
+				
+			}
+	}
+	setInterval(function()
+	{
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillRect(0 + x-100,595,80,5);
+		ctx.fillRect(30 + x-100,575,20,20);
+		control_object();
+	},200);
+	function draw_bullet(x,y)
+	{
+		
+		ctx.fillStyle = "#0000FF";
+		ctx.fillRect(x,y,2,5);
+		ctx.fillRect(x+8,y,2,5); 
+	}
+	function generate_rocks(height,strength)
+	{
+		rocks_arr.push(height);
+		rocks_arr.push(0);
+		rocks_arr.push(strength);
+		rocks_arr.push(height);
+		rocks_arr.push(0);
+		rocks_arr.push(flag_1);
+		rocks_arr.push(a_x);
+		rocks_arr.push(b_x);
+		ctx.beginPath();
+		ctx.stroke();
+
+	}
+	function write_strength()
+	{
+		for(var k = 0;k<rocks_arr.length;k = k + 8)
+		{
+			
+			ctx.fillStyle = "#000000";
+			ctx.font = "20px Georgia";
+			ctx.fillText(rocks_arr[k+2],rocks_arr[k+1]-20,rocks_arr[k]);
+		}
+	}
+</script>
+</body>
+</html>
